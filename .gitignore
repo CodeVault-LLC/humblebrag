@@ -1,2 +1,21 @@
-/dist
-/node_modules
+# dependencies
+**/node_modules
+
+# testing
+**/coverage
+
+# build
+**/dist
+**/build
+
+# env
+**/.env.local
+**/.env
+
+# etc
+.DS_Store
+.idea
+**/.turbo
+
+# compiled
+extension/public/manifest.json
