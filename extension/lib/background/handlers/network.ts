@@ -1,4 +1,4 @@
-import { type ScriptResponse } from "../../../src/types/message";
+import { type ScriptResponse } from "@humblebrag/shared/lib/types/message";
 
 export const getNetworkRequests = async (
   tabId: number

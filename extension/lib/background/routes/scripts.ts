@@ -5,8 +5,8 @@ import { getScripts } from "../handlers/scripts";
 import { regexHandler } from "../lib/regex";
 import { findCurrentTab } from "../lib/tab";
 import { SECRET_PATTERNS } from "../secrets/patterns";
-import { type Respond } from "../../../src/types/route";
-import { type Secret } from "../../../src/types/secret";
+import { type Respond } from "@humblebrag/shared/lib/types/route";
+import { type Secret } from "@humblebrag/shared/lib/types/secret";
 
 const ScriptRoute = async (respond: Respond): Promise<void> => {
   const tab = await findCurrentTab();
@@ -36,6 +36,7 @@ const ScriptRoute = async (respond: Respond): Promise<void> => {
       });
     }
   });
+
   respond(generateMessage("secrets", foundSecrets));
 };
 

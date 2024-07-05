@@ -1,6 +1,6 @@
 /* eslint-disable no-console -- Understood */
 import { fetchScriptContent } from "../client/fetch";
-import { type ScriptResponse } from "../../../src/types/message";
+import { type ScriptResponse } from "@humblebrag/shared/lib/types/message";
 
 export const getScripts = async (tabId: number): Promise<ScriptResponse[]> => {
   try {

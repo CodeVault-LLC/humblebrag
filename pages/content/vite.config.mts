@@ -26,7 +26,7 @@ export default defineConfig({
       name: "ContentScript",
       fileName: "index",
     },
-    outDir: resolve(rootDir, "..", "..", "dist", "content"),
+    outDir: resolve(rootDir, "..", "..", "dist"),
     sourcemap: isDev,
     minify: isProduction,
     reportCompressedSize: isProduction,

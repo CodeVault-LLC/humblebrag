@@ -1,10 +1,10 @@
 import { Category, SubCategory } from "../constants/secrets";
-import type { RegexPattern } from "../../../src/types/secret";
+import type { RegexPattern } from "@humblebrag/shared/lib/types/secret";
 
 export const SECRET_PATTERNS: RegexPattern[] = [
   {
     pattern:
-      /(?:key|token|secret|password|apiKey|authToken|accessToken|sessionKey|privateKey|publicKey)[\s:="']+(?<temp1>[\w-]+)/gi,
+      /(?:key|token|secret|password|apiKey|authToken|accessToken|sessionKey|privateKey|publicKey)[\s:="']+([\w-]+)/gi,
     name: "Sensitive Data Keywords",
     description:
       "Matches common keywords related to sensitive data like keys, tokens, secrets, etc.",
@@ -20,7 +20,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   },
   {
     pattern:
-      /\b(?<temp2>secret|password|apiKey|token|access_token|auth_token|credentials)\b\s*[:=]\s*(?<temp1>"|')[^"']+\2/gi,
+      /\b(secret|password|apiKey|token|access_token|auth_token|credentials)\b\s*[:=]\s*("|')[^"']+\2/gi,
     name: "Sensitive Data Assignment",
     description:
       "Matches assignments of sensitive data like secrets, passwords, tokens, etc.",
@@ -31,7 +31,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   // Game Variables (Level, Health, Lives, etc.)
   {
     pattern:
-      /\b(?<temp2>level|health|lives|damage|score|points|enemy|player|play|experience|mana|stamina|currency|coins|gems|ammo|bullets)\b\s*(?<temp1>=|[+-]=)\s*[^;]+/gi,
+      /\b(level|health|lives|damage|score|points|enemy|player|play|experience|mana|stamina|currency|coins|gems|ammo|bullets)\b\s*(=|[+-]=)\s*[^;]+/gi,
     name: "Game Variable Assignment",
     description:
       "Matches assignment or modification of common game-related variables.",
@@ -40,7 +40,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   },
   {
     pattern:
-      /\b(?<temp1>level|health|lives|damage|score|points|enemy|player|play|experience|mana|stamina|currency|coins|gems|ammo|bullets)\b/gi,
+      /\b(level|health|lives|damage|score|points|enemy|player|play|experience|mana|stamina|currency|coins|gems|ammo|bullets)\b/gi,
     name: "Game Variables",
     description: "Identifies common game-related variables in code.",
     category: Category.GAME_VARIABLE,
@@ -50,7 +50,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   // Function Names (Potentially Interesting or Vulnerable)
   {
     pattern:
-      /\b(?<temp1>init|start|stop|pause|resume|render|update|draw|reset|destroy|remove|add|insert|delete|attack|move|jump|run|shoot|spawn|load|save)\b\s*\([^)]*\)/gi,
+      /\b(init|start|stop|pause|resume|render|update|draw|reset|destroy|remove|add|insert|delete|attack|move|jump|run|shoot|spawn|load|save)\b\s*\([^)]*\)/gi,
     name: "Game Function Calls",
     description: "Matches calls to common game-related functions.",
     category: Category.FUNCTION_NAME,
@@ -58,7 +58,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   },
   {
     pattern:
-      /\b(?<temp1>render|update|draw|init|play|pause|resume|restart|stop|load|save|reset|destroy|remove|add|insert|delete|attack|move|jump|run|shoot|spawn)\b/gi,
+      /\b(render|update|draw|init|play|pause|resume|restart|stop|load|save|reset|destroy|remove|add|insert|delete|attack|move|jump|run|shoot|spawn)\b/gi,
     name: "Game Function Names",
     description: "Identifies common game-related function names in code.",
     category: Category.FUNCTION_NAME,
@@ -68,7 +68,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   // Weird or Generic Names
   {
     pattern:
-      /\b(?<temp1>data|result|value|temp|val|tmp|obj|item|element|component|list|array|dict|config|info|params|args|settings|state|counter|index|i|j|k|n|x|y|z)\b/gi,
+      /\b(data|result|value|temp|val|tmp|obj|item|element|component|list|array|dict|config|info|params|args|settings|state|counter|index|i|j|k|n|x|y|z)\b/gi,
     name: "Generic Names",
     description:
       "Matches common generic variable names which might be placeholders or less secure.",
@@ -92,8 +92,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
     subCategory: SubCategory.FILE_PATH,
   },
   {
-    pattern:
-      /\b(?<temp2>endpoint|url|uri|path)\b\s*[:=]\s*(?<temp1>"|')[^"']+\2/gi,
+    pattern: /\b(endpoint|url|uri|path)\b\s*[:=]\s*("|')[^"']+\2/gi,
     name: "Endpoint Assignment",
     description: "Matches assignments of URLs or paths to variables.",
     category: Category.URL_PATH,
@@ -131,7 +130,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
     subCategory: SubCategory.DOM_MANIPULATION,
   },
   {
-    pattern: /\b(?<temp1>location|window\.location)\b\s*=\s*.*?;/gi,
+    pattern: /\b(location|window\.location)\b\s*=\s*.*?;/gi,
     name: "Location Manipulation",
     description: "Matches assignment to location object.",
     category: Category.SECURITY_RISK,
@@ -140,14 +139,14 @@ export const SECRET_PATTERNS: RegexPattern[] = [
 
   // Variable Declarations and Initializations
   {
-    pattern: /\b(?<temp1>var|let|const)\s+\w+\s*=\s*[^;]+;/gi,
+    pattern: /\b(var|let|const)\s+\w+\s*=\s*[^;]+;/gi,
     name: "Variable Declaration",
     description: "Matches general variable declarations with initialization.",
     category: Category.VARIABLE_DECLARATION,
     subCategory: SubCategory.COMMON_VARIABLE,
   },
   {
-    pattern: /\b(?<temp1>this|window)\.\w+\s*=\s*[^;]+;/gi,
+    pattern: /\b(this|window)\.\w+\s*=\s*[^;]+;/gi,
     name: "Global or Window Variable Assignment",
     description: "Matches assignments to global or window-scoped variables.",
     category: Category.VARIABLE_DECLARATION,
@@ -157,7 +156,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   // JSON and Object Properties
   {
     pattern:
-      /\b(?<temp2>property|key|value|json|config|data|metadata)\b\s*[:=]\s*(?<temp1>"|')[^"']+\2/gi,
+      /\b(property|key|value|json|config|data|metadata)\b\s*[:=]\s*("|')[^"']+\2/gi,
     name: "JSON or Object Property",
     description: "Matches assignments to common JSON or object properties.",
     category: Category.JSON_PROPERTY,
@@ -166,15 +165,14 @@ export const SECRET_PATTERNS: RegexPattern[] = [
 
   // Common JavaScript Patterns
   {
-    pattern:
-      /\b(?<temp2>console\.(?<temp1>log|warn|error|debug))\b\s*\(.*?\)/gi,
+    pattern: /\b(console\.(log|warn|error|debug))\b\s*\(.*?\)/gi,
     name: "Console Logging",
     description: "Matches console logging functions.",
     category: Category.JS_PATTERN,
     subCategory: SubCategory.CONSOLE_LOG,
   },
   {
-    pattern: /\b(?<temp1>for|while)\s*\([^)]*\)\s*\{[^}]*\}/gi,
+    pattern: /\b(for|while)\s*\([^)]*\)\s*\{[^}]*\}/gi,
     name: "Loops",
     description: "Matches for and while loops.",
     category: Category.JS_PATTERN,
@@ -182,7 +180,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
   },
   {
     pattern:
-      /\b(?<temp1>document\.|innerHTML|outerHTML|appendChild|insertAdjacentHTML|innerText|outerText|querySelector|querySelectorAll|getElementById|getElementsByClassName|getElementsByTagName|createElement)\b/gi,
+      /\b(document\.|innerHTML|outerHTML|appendChild|insertAdjacentHTML|innerText|outerText|querySelector|querySelectorAll|getElementById|getElementsByClassName|getElementsByTagName|createElement)\b/gi,
     name: "DOM Manipulation",
     description: "Matches common DOM manipulation methods.",
     category: Category.JS_PATTERN,
@@ -196,7 +194,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
     subCategory: SubCategory.AJAX,
   },
   {
-    pattern: /\b(?<temp1>axios|request|ajax|$.ajax|$.get|$.post)\s*\(.*?\)/gi,
+    pattern: /\b(axios|request|ajax|$.ajax|$.get|$.post)\s*\(.*?\)/gi,
     name: "AJAX Libraries",
     description: "Matches usage of common AJAX libraries and methods.",
     category: Category.JS_PATTERN,
@@ -205,7 +203,7 @@ export const SECRET_PATTERNS: RegexPattern[] = [
 
   // Comments (Potentially Sensitive Information)
   {
-    pattern: /\/\*[^*]*\*+(?<temp1>[^/*][^*]*\*+)*\//gi,
+    pattern: /\/\*[^*]*\*+([^/*][^*]*\*+)*\//gi,
     name: "Block Comments",
     description: "Matches block comments in the code.",
     category: Category.COMMENT,

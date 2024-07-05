@@ -1,6 +1,6 @@
 import { generateMessage } from "../client/response";
 import { findCurrentTab } from "../lib/tab";
-import { type Respond } from "../../../src/types/route";
+import { type Respond } from "@humblebrag/shared/lib/types/route";
 
 const GlobalRoute = async (respond: Respond): Promise<void> => {
   const tab = await findCurrentTab();

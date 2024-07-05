@@ -25,7 +25,10 @@ const manifest = Object.assign({
   version: packageJson.version,
   description:
     "Humblebrag is a browser extension that helps you to debug your web applications.",
-  permissions: ["storage"].concat(sidePanelConfig.permissions),
+  permissions: ["storage", "webRequest", "scripting"].concat(
+    sidePanelConfig.permissions
+  ),
+  host_permissions: ["<all_urls>"],
   background: {
     service_worker: "background.iife.js",
     type: "module",
@@ -33,15 +36,8 @@ const manifest = Object.assign({
   content_scripts: [
     {
       matches: ["http://*/*", "https://*/*", "<all_urls>"],
-      js: ["content/index.iife.js"],
-    },
-    {
-      matches: ["http://*/*", "https://*/*", "<all_urls>"],
-      js: ["content-ui/index.iife.js"],
-    },
-    {
-      matches: ["http://*/*", "https://*/*", "<all_urls>"],
-      css: ["content.css"], // public folder
+      js: ["index.iife.js"],
+      run_at: "document_start",
     },
   ],
   devtools_page: "devtools/index.html",

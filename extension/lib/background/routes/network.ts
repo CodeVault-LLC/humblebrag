@@ -1,7 +1,7 @@
 import { generateMessage } from "../client/response";
 import { getNetworkRequests } from "../handlers/network";
 import { findCurrentTab } from "../lib/tab";
-import { type Respond } from "../../../src/types/route";
+import { type Respond } from "@humblebrag/shared/lib/types/route";
 
 const NetworkRoute = async (respond: Respond): Promise<void> => {
   const tab = await findCurrentTab();
