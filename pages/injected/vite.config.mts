@@ -23,10 +23,10 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "lib/index.ts"),
       formats: ["iife"],
-      name: "ContentScript",
+      name: "InjectedScripts",
       fileName: "index",
     },
-    outDir: resolve(rootDir, "..", "..", "dist"),
+    outDir: resolve(rootDir, "..", "..", "dist", "injected"),
     sourcemap: isDev,
     minify: isProduction,
     reportCompressedSize: isProduction,

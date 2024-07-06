@@ -31,6 +31,19 @@ export class Router {
     if (msg.type === "globals" && msg.method === "GET") {
       await GlobalRoute(this.respond);
     }
+
+    if (msg.type === "payment" && msg.method === "GET") {
+      const response = await fetch("http://localhost:3000/payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ plan: "simple" }),
+      });
+
+      const data = await response.json();
+      this.respond(data);
+    }
   };
 
   public respond = (data: unknown): void => {

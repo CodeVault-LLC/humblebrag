@@ -1,17 +1,16 @@
 import type { Message } from "@humblebrag/shared/lib/types/message";
+import { connection } from "@humblebrag/shared/lib/connection/frontend";
 
 const logMessage = (message: string, args: unknown[] = []): void => {
   // eslint-disable-next-line no-console -- This is a valid console statement
   console.log(message, ...args);
 };
 
-const port = chrome.runtime.connect({ name: "custom-hacking" });
+connection.postMessage({ type: "scripts", method: "GET" });
+connection.postMessage({ type: "networks", method: "GET" });
+connection.postMessage({ type: "globals", method: "GET" });
 
-port.postMessage({ type: "scripts", method: "GET" });
-port.postMessage({ type: "networks", method: "GET" });
-port.postMessage({ type: "globals", method: "GET" });
-
-port.onMessage.addListener((msg: Message) => {
+connection.onMessage.addListener((msg: Message) => {
   logMessage("Received message from background script:", [msg]);
 });
 
@@ -160,7 +159,7 @@ void getData().then((data) => {
 
 const injectScript = (): void => {
   const script = document.createElement("script");
-  script.src = chrome.runtime.getURL("injected.js");
+  script.src = chrome.runtime.getURL("injected/index.iife.js");
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- This is a valid check
   (document.head || document.documentElement).appendChild(script);
 
