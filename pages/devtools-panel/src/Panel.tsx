@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Navbar } from "./components/Navbar";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { Terminal } from "./pages/Terminal";
+import { Files } from "./pages/Files";
+import { Options } from "./pages/Options";
 
 const Panel = () => {
   const [activeTab, setActiveTab] = useState<string>("Terminal");
@@ -12,7 +14,7 @@ const Panel = () => {
   return (
     <ThemeProvider defaultTheme="system" storageKey="devtools-theme">
       <TooltipProvider delayDuration={50}>
-        <div className="flex flex-col h-screen bg-[#f2f2f2] dark:bg-[#1c1c1e]">
+        <div className="flex flex-col h-screen">
           <Navbar />
           <div className="flex-1 flex">
             <Sidebar
@@ -20,6 +22,8 @@ const Panel = () => {
               setActiveTab={(tab) => setActiveTab(tab)}
             />
             {activeTab === "Terminal" && <Terminal />}
+            {activeTab === "Files" && <Files />}
+            {activeTab === "Settings" && <Options />}
           </div>
         </div>
       </TooltipProvider>

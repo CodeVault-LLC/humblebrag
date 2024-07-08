@@ -137,7 +137,7 @@ export const Terminal: React.FC = () => {
         </div>
       </div>
       <div className="flex-1 flex">
-        <div className="flex-1 p-4 bg-[#f2f2f2] dark:bg-[#1c1c1e] text-[#333] dark:text-[#f2f2f2] font-mono gap-6 h-[91vh] overflow-y-auto">
+        <div className="flex-1 p-4 text-[#333] dark:text-[#f2f2f2] font-mono gap-6 h-[91vh] overflow-y-auto">
           {commands.get(currentTab)?.map((command, key) => {
             return (
               <div

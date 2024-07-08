@@ -9,7 +9,7 @@ import { Slider } from "@src/components/ui/slider";
 
 export const OptionsSidebar: React.FC = () => {
   return (
-    <div className="w-64 border-l border-[#d8d8d8] dark:border-[#2c2c2e] bg-[#f2f2f2] dark:bg-[#1c1c1e] p-4">
+    <div className="w-64 border-l border-[#d8d8d8] dark:border-[#2c2c2e]  p-4">
       <div className="mb-4">
         <h3 className="text-[#333] dark:text-[#f2f2f2] font-medium">Themes</h3>
         <Select>
