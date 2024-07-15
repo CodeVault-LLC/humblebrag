@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
         <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
         <div className="w-3 h-3 rounded-full bg-[#28c840]" />
       </div>
-      <div className="flex-1 text-center text-[#333] dark:text-[#f2f2f2] font-medium">
+      <div className="flex-1 text-center text-[#333] dark:text-[#f2f2f2] font-semibold text-2xl">
         Humblebrag
       </div>
       <div className="flex items-center gap-2">

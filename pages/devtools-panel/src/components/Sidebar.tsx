@@ -1,5 +1,11 @@
 import { Button } from "./ui/button";
-import { TerminalIcon, FilesIcon, SettingsIcon } from "lucide-react";
+import {
+  TerminalIcon,
+  FilesIcon,
+  SettingsIcon,
+  KeyIcon,
+  DatabaseIcon,
+} from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { cn } from "@src/lib/utils";
 
@@ -20,6 +26,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       name: "Files",
       icon: FilesIcon,
+    },
+    {
+      name: "Findings",
+      icon: KeyIcon,
+    },
+    {
+      name: "Database",
+      icon: DatabaseIcon,
     },
     {
       name: "Settings",

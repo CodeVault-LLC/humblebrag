@@ -6,6 +6,7 @@ import {
 } from "./base";
 import { exampleThemeStorage } from "./exampleThemeStorage";
 import { userStorage } from "./userStorage";
+import { scanStorage } from "./scanStorage";
 
 export {
   exampleThemeStorage,
@@ -14,4 +15,5 @@ export {
   SessionAccessLevel,
   BaseStorage,
   userStorage,
+  scanStorage,
 };

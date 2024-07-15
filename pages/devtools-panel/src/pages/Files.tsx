@@ -1,18 +1,8 @@
 import { Input } from "@src/components/ui/input";
-import { Code, Eclipse, FileCode, Image } from "lucide-react";
+import { Code, Eclipse, FileCode, Image, Key } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 export const Files: React.FC = () => {
-  // A main component to list files.
-  /*
-  Features:
-  - Search and Filters
-  - Automatic file type detection
-  - File preview
-  - File scanning (Backend)
-  - File Algorythm (Filter the important ones (backend))
-  */
-
   const [files, setFiles] = useState<
     chrome.devtools.inspectedWindow.Resource[]
   >([]);
@@ -21,7 +11,6 @@ export const Files: React.FC = () => {
   >([]);
 
   const [search, setSearch] = useState<string>("");
-  const [filters, setFilters] = useState<string[]>(["all"]);
 
   useMemo(() => {
     // filter files based on search and filters.
@@ -34,11 +23,10 @@ export const Files: React.FC = () => {
     });
 
     setFilteredFiles(filteredFiles);
-  }, [search, filters]);
+  }, [search]);
 
   useEffect(() => {
     chrome.devtools.inspectedWindow.getResources((resources) => {
-      // ignore chrome extensions
       resources = resources.filter((resource) => {
         return !resource.url.startsWith("chrome-extension://");
       });
@@ -82,8 +70,6 @@ export const Files: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-
-          {/* get file information. */}
         </div>
       </div>
     </div>
