@@ -58,7 +58,7 @@ const Panel = () => {
     };
 
     getData();
-  });
+  }, []);
 
   return (
     <ThemeProvider defaultTheme="system" storageKey="devtools-theme">

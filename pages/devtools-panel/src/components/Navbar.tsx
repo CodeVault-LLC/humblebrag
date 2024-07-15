@@ -1,12 +1,13 @@
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useStorageSuspense } from "@humblebrag/shared";
-import { userStorage } from "@humblebrag/storage";
+import { scanStorage, userStorage } from "@humblebrag/storage";
 import { useEffect } from "react";
 import { handleAuth } from "@src/lib/auth";
 
 export const Navbar: React.FC = () => {
   const user = useStorageSuspense(userStorage);
+  const scan = useStorageSuspense(scanStorage)[0];
 
   useEffect(() => {
     userStorage.getUser();
@@ -19,9 +20,18 @@ export const Navbar: React.FC = () => {
         <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
         <div className="w-3 h-3 rounded-full bg-[#28c840]" />
       </div>
-      <div className="flex-1 text-center text-[#333] dark:text-[#f2f2f2] font-semibold text-2xl">
-        Humblebrag
+      <div className="flex-1">
+        <div className="flex flex-row items-center justify-center space-x-4">
+          <h1 className="text-center text-[#333] dark:text-[#f2f2f2] font-semibold text-lg">
+            Humblebrag
+          </h1>
+
+          <span className="text-[#333] dark:text-[#f2f2f2] text-xs text-center">
+            {chrome.runtime.getManifest().version}
+          </span>
+        </div>
       </div>
+
       <div className="flex items-center gap-2">
         {user.id ? (
           <Button variant="ghost" size="icon" className="rounded-full">

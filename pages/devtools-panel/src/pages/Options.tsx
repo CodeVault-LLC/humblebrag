@@ -1,5 +1,6 @@
 import { useStorageSuspense } from "@humblebrag/shared";
 import { userStorage } from "@humblebrag/storage";
+import { useTheme } from "@src/components/theme-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "@src/components/ui/avatar";
 import { Button } from "@src/components/ui/button";
 import {
@@ -21,6 +22,7 @@ import { handleAuth } from "@src/lib/auth";
 
 export const Options: React.FC = () => {
   const user = useStorageSuspense(userStorage);
+  const { setTheme, theme } = useTheme();
 
   return (
     <div className="flex-1 flex flex-col p-4 gap-8">
@@ -130,7 +132,22 @@ export const Options: React.FC = () => {
 
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium w-full">Theme</p>
-            <Select>
+            <Select
+              onValueChange={(e) => {
+                switch (e) {
+                  case "dark":
+                    setTheme("dark");
+                    break;
+                  case "light":
+                    setTheme("light");
+                    break;
+                  case "system":
+                    setTheme("system");
+                    break;
+                }
+              }}
+              defaultValue={theme}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select a theme" />
               </SelectTrigger>

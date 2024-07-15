@@ -3,15 +3,21 @@ import { scanStorage } from "@humblebrag/storage";
 import type { Results, Scan } from "@humblebrag/storage/lib/scanStorage";
 import { Button } from "@src/components/ui/button";
 import { DataTable } from "@src/components/ui/data-table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@src/components/ui/select";
 import { cn } from "@src/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
+import { DownloadIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Findings: React.FC = () => {
   const scan = useStorageSuspense(scanStorage)[0];
-  const [currentTab, setCurrentTab] = useState<string>(
-    scan.secrets[0]?.name ?? ""
-  );
+  const [results, setResults] = useState<Results[]>([]);
 
   const columns: ColumnDef<Results>[] = [
     {
@@ -48,34 +54,94 @@ export const Findings: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    setResults(
+      scan && scan?.secrets && scan.secrets.flatMap((secret) => secret.results)
+    );
+  }, []);
+
+  if (!scan?.secrets) {
+    return (
+      <div>
+        <h5 className="text-[#333] dark:text-[#f2f2f2]">No findings</h5>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 flex flex-col">
-      <div className="p-4 w-[96vw] overflow-auto">
-        <div className="grid grid-cols-2 gap-4 mb-8 overflow-x-auto">
-          {Array.from(new Set(scan.secrets.map((tab) => tab.name))).map(
-            (name) => (
-              <Button
-                key={name}
-                variant="ghost"
-                className={cn(
-                  "px-4 py-2 rounded-lg hover:bg-[#e5e5e5] dark:hover:bg-[#2c2c2e] cursor-pointer",
-                  currentTab === name && "bg-[#e5e5e5] dark:bg-[#2c2c2e]"
-                )}
-                onClick={() => setCurrentTab(name)}
+      <div className="p-4">
+        {scan?.secrets?.length !== 0 ? (
+          <>
+            <div className="flex items-center justify-between mb-4 space-x-4">
+              <Select
+                onValueChange={(e) => {
+                  if (e === "all") {
+                    setResults(
+                      scan.secrets.flatMap((secret) => secret.results)
+                    );
+                  } else {
+                    setResults(
+                      scan.secrets.find((secret) => secret.name === e)
+                        ?.results ?? []
+                    );
+                  }
+                }}
               >
-                {name}
-              </Button>
-            )
-          )}
-        </div>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a secret" />
+                </SelectTrigger>
 
-        {scan.secrets.length !== 0 ? (
-          <DataTable
-            columns={columns}
-            data={scan.secrets
-              .filter((secret) => secret.name === currentTab)
-              .flatMap((secret) => secret?.results)}
-          />
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+
+                  {Array.from(new Set(scan.secrets.map((tab) => tab.name))).map(
+                    (name) => (
+                      <SelectItem key={name} value={name}>
+                        {name}
+                      </SelectItem>
+                    )
+                  )}
+                </SelectContent>
+              </Select>
+              <Button
+                variant="outline"
+                className="flex flex-row items-center space-x-2"
+                onClick={() => {
+                  // put it into a csv file
+                  const csv = results
+                    .map((result) => {
+                      return `${result.match},${result.line},${result.script}`;
+                    })
+                    .join("\n");
+
+                  const blob = new Blob(
+                    [
+                      `
+                    Match,Line,Script
+                    ${csv}
+                    `,
+                    ],
+                    { type: "text/csv" }
+                  );
+
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "findings.csv";
+                  a.click();
+                  URL.revokeObjectURL(url);
+
+                  a.remove();
+                }}
+              >
+                <DownloadIcon size={16} />
+                <span>Export</span>
+              </Button>
+            </div>
+
+            <DataTable columns={columns} data={results} />
+          </>
         ) : (
           <h5 className="text-[#333] dark:text-[#f2f2f2]">No findings</h5>
         )}
