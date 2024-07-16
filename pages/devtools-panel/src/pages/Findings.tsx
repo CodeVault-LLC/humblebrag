@@ -1,6 +1,6 @@
 import { useStorageSuspense } from "@humblebrag/shared";
 import { scanStorage } from "@humblebrag/storage";
-import type { Results, Scan } from "@humblebrag/storage/lib/scanStorage";
+import type { Matches, Scan } from "@humblebrag/storage/lib/scanStorage";
 import { Button } from "@src/components/ui/button";
 import { DataTable } from "@src/components/ui/data-table";
 import {
@@ -17,9 +17,9 @@ import { useEffect, useState } from "react";
 
 export const Findings: React.FC = () => {
   const scan = useStorageSuspense(scanStorage)[0];
-  const [results, setResults] = useState<Results[]>([]);
+  const [results, setResults] = useState<Matches[]>([]);
 
-  const columns: ColumnDef<Results>[] = [
+  const columns: ColumnDef<Matches>[] = [
     {
       id: "match",
       header: "Match",
@@ -34,7 +34,7 @@ export const Findings: React.FC = () => {
       id: "script",
       header: "Script",
       cell: ({ row }) => {
-        const script = row.original.script;
+        const script = row.original.source;
 
         if (script.toString() === "inline-script") {
           return "Inline Script";
@@ -56,7 +56,7 @@ export const Findings: React.FC = () => {
 
   useEffect(() => {
     setResults(
-      scan && scan?.secrets && scan.secrets.flatMap((secret) => secret.results)
+      scan && scan?.secrets && scan.secrets.flatMap((secret) => secret.matches)
     );
   }, []);
 
@@ -78,12 +78,12 @@ export const Findings: React.FC = () => {
                 onValueChange={(e) => {
                   if (e === "all") {
                     setResults(
-                      scan.secrets.flatMap((secret) => secret.results)
+                      scan.secrets.flatMap((secret) => secret.matches)
                     );
                   } else {
                     setResults(
                       scan.secrets.find((secret) => secret.name === e)
-                        ?.results ?? []
+                        ?.matches ?? []
                     );
                   }
                 }}
@@ -111,7 +111,7 @@ export const Findings: React.FC = () => {
                   // put it into a csv file
                   const csv = results
                     .map((result) => {
-                      return `${result.match},${result.line},${result.script}`;
+                      return `${result.match},${result.line},${result.source}`;
                     })
                     .join("\n");
 

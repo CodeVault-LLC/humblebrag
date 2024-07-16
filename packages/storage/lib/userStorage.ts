@@ -2,10 +2,10 @@ import { BaseStorage, createStorage, StorageType } from "./base";
 
 interface User {
   id: number;
-  name: string;
+  username: string;
   avatar: string;
   email: string;
-  avatarUrl: string;
+  avatar_url: string;
 
   subscription: {
     status: string | "none";
@@ -21,10 +21,10 @@ const storage = createStorage<User>(
   "user-storage-key",
   {
     id: 0,
-    name: "",
+    username: "",
     avatar: "",
     email: "",
-    avatarUrl: "",
+    avatar_url: "",
 
     subscription: {
       status: "none",
@@ -45,10 +45,10 @@ export const userStorage = {
     if (!response.ok) {
       userStorage.set({
         id: 0,
-        name: "Guest",
+        username: "Guest",
         avatar: "",
         email: "",
-        avatarUrl: "",
+        avatar_url: "",
 
         subscription: {
           status: "none",

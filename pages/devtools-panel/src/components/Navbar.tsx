@@ -4,13 +4,20 @@ import { useStorageSuspense } from "@humblebrag/shared";
 import { scanStorage, userStorage } from "@humblebrag/storage";
 import { useEffect } from "react";
 import { handleAuth } from "@src/lib/auth";
+import { RefreshCcw } from "lucide-react";
+import { DoScan } from "@src/lib/scan";
 
 export const Navbar: React.FC = () => {
   const user = useStorageSuspense(userStorage);
-  const scan = useStorageSuspense(scanStorage)[0];
 
   useEffect(() => {
     userStorage.getUser();
+
+    const getData = async () => {
+      await DoScan();
+    };
+
+    getData();
   }, []);
 
   return (
@@ -29,15 +36,25 @@ export const Navbar: React.FC = () => {
           <span className="text-[#333] dark:text-[#f2f2f2] text-xs text-center">
             {chrome.runtime.getManifest().version}
           </span>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              DoScan();
+            }}
+          >
+            <RefreshCcw className="w-4 h-4" />
+          </Button>
         </div>
       </div>
 
       <div className="flex items-center gap-2">
-        {user.id ? (
+        {user?.id ? (
           <Button variant="ghost" size="icon" className="rounded-full">
             <Avatar className="size-8">
-              <AvatarImage src={user.avatarUrl} alt="Avatar" />
-              <AvatarFallback>{user.name}</AvatarFallback>
+              <AvatarImage src={user.avatar_url} alt="Avatar" />
+              <AvatarFallback>{user.username}</AvatarFallback>
             </Avatar>
           </Button>
         ) : (

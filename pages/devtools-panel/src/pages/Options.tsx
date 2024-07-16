@@ -34,12 +34,12 @@ export const Options: React.FC = () => {
             <>
               <div className="flex items-center gap-4">
                 <Avatar>
-                  <AvatarFallback>{user.name[0]}</AvatarFallback>
-                  <AvatarImage src={user.avatarUrl} alt={user.name} />
+                  <AvatarFallback>{user.username[0]}</AvatarFallback>
+                  <AvatarImage src={user.avatar_url} alt={user.username} />
                 </Avatar>
 
                 <div>
-                  <p className="text-lg font-semibold">{user.name}</p>
+                  <p className="text-lg font-semibold">{user.username}</p>
                   <p className="text-muted-foreground">{user.email}</p>
                 </div>
               </div>
@@ -75,7 +75,7 @@ export const Options: React.FC = () => {
         </Card>
       </div>
 
-      {user.id && user.subscription.plan !== "none" && (
+      {user.id && user?.subscription?.plan !== "none" && (
         <div className="grid gap-2">
           <Card>
             <CardHeader>

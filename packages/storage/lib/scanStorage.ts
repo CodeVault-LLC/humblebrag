@@ -1,27 +1,27 @@
 import { BaseStorage, createStorage, StorageType } from "./base";
 
-export interface Results {
+export interface Matches {
   line: number;
   match: string;
-  script: string; // url
+  source: string; // url
 }
 
 export interface Scan {
   databases: {
     name: string;
-    results: Results[];
+    matches: Matches[];
   }[];
   databaseLogins: {
     name: string;
-    results: Results[];
+    matches: Matches[];
   }[];
   obfuscations: {
     name: string;
-    results: Results[];
+    matches: Matches[];
   }[];
   secrets: {
     name: string;
-    results: Results[];
+    matches: Matches[];
   }[];
 }
 
@@ -32,7 +32,7 @@ type ScanStorage = BaseStorage<Scan[]> & {
   addScan: (scan: Scan) => Promise<void>;
 };
 
-const storage = createStorage<Scan[]>("user-storage-key", [], {
+const storage = createStorage<Scan[]>("scan-storage-key", [], {
   storageType: StorageType.Session,
   liveUpdate: true,
 });

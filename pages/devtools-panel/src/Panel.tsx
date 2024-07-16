@@ -16,50 +16,6 @@ import { Database } from "./pages/Database";
 const Panel = () => {
   const [activeTab, setActiveTab] = useState<string>("Terminal");
 
-  useEffect(() => {
-    const getData = async () => {
-      const tab = await findCurrentTab();
-      if (!tab) {
-        console.error("No active tab found");
-        return;
-      }
-
-      const scripts = await getScripts(tab.id ?? 0);
-
-      console.log("Scripts:", scripts);
-      console.log("Tab:", tab);
-
-      const response = await fetch("http://localhost:3000/scan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          url: tab.url,
-          depth: 2,
-          doScripts: true,
-          doStyles: false,
-          doImages: false,
-          doLinks: true,
-
-          scripts: scripts.map((script) => ({
-            src: script.name,
-            content: script.content,
-          })),
-        }),
-      });
-      if (!response.ok) {
-        console.error("Failed to fetch scan data");
-        return;
-      }
-
-      const data = await response.json();
-      scanStorage.addScan(data);
-    };
-
-    getData();
-  }, []);
-
   return (
     <ThemeProvider defaultTheme="system" storageKey="devtools-theme">
       <TooltipProvider delayDuration={50}>
